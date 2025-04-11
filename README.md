@@ -63,6 +63,12 @@ DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
+Edit .env and set your openai api key
+
+```bash
+OPENAI_API_KEY=your-open-api-key
+```
+
 4. Run Migrations
 
 ```bash
