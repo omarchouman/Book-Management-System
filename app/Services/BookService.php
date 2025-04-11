@@ -29,6 +29,13 @@ class BookService
             );
         }
 
+        if (empty($data['tags'])) {
+            $data['tags'] = $this->openAI->generateBookTags(
+                $data['title'],
+                $data['description']
+            );
+        }
+
         return Book::create($data);
     }
 

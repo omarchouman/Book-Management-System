@@ -25,6 +25,18 @@ class StoreBookRequest extends FormRequest
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'tags' => 'nullable|string',
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated();
+
+        if (!empty($data['tags']) && is_string($data['tags'])) {
+            $data['tags'] = array_map('trim', explode(',', strtolower($data['tags'])));
+        }
+
+        return $data;
     }
 }

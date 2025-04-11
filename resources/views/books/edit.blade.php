@@ -24,6 +24,15 @@
                 <small class="text-gray-500">Leave blank to auto-generate with AI ✨</small>
             </div>
 
+            <div class="mb-4">
+                <label for="tags" class="block font-medium text-sm text-gray-700">Tags (optional)</label>
+                <input type="text" name="tags" id="tags"
+                       class="form-input rounded-md shadow-sm mt-1 block w-full"
+                       placeholder="e.g. fantasy, sci-fi, psychology"
+                       value="{{ old('tags', is_array($book->tags) ? implode(', ', $book->tags) : $book->tags) }}"
+                />
+            </div>
+
             <div class="flex justify-end">
                 <a href="{{ route('books.index') }}" class="text-gray-500 hover:underline mr-4 py-2">Cancel</a>
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
