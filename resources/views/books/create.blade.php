@@ -18,6 +18,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Description</label>
                 <textarea name="description" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+                <small class="text-gray-500">Leave blank to auto-generate with AI ✨</small>
             </div>
 
             <div class="flex justify-end">

@@ -24,18 +24,20 @@
             <table class="min-w-full bg-white border rounded shadow">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-6 py-3 text-left">Title</th>
-                        <th class="px-6 py-3 text-left">Author</th>
-                        <th class="px-6 py-3 text-left">Status</th>
-                        <th class="px-6 py-3 text-right">Actions</th>
+                        <th class="px-6 py-3 text-center">Title</th>
+                        <th class="px-6 py-3 text-center">Author</th>
+                        <th class="px-6 py-3 text-center">Description</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                        <th class="px-6 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($books as $book)
                         <tr class="border-t">
-                            <td class="px-6 py-4">{{ $book->title }}</td>
-                            <td class="px-6 py-4">{{ $book->author }}</td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 text-center">{{ $book->title }}</td>
+                            <td class="px-6 py-4 text-center">{{ $book->author }}</td>
+                            <td class="px-6 py-4 text-center">{{ Str::limit($book->description, 50) }}</td>
+                            <td class="px-6 py-4 text-center">
                                 <span class="{{ $book->is_checked_out ? 'text-red-600' : 'text-green-600' }}">
                                     {{ $book->is_checked_out ? 'Checked Out (Returned)' : 'Checked In (Borrowed)' }}
                                 </span>

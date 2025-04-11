@@ -3,25 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Services\BookService;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct(protected BookService $bookService) {}
+
     public function index(Request $request)
     {
-        $query = Book::query();
-
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('title', 'like', "%{$search}%")
-                ->orWhere('author', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
-        }
-
-        $books = $query->latest()->paginate(10);
-
+        $books = $this->bookService->search($request->input('search'));
         return view('books.index', compact('books'));
     }
 
@@ -30,16 +23,9 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        Book::create($request->all());
-
+        $this->bookService->store($request->validated());
         return redirect()->route('books.index')->with('success', 'Book added!');
     }
 
@@ -48,35 +34,27 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $book->update($request->all());
-
+        $this->bookService->update($book, $request->validated());
         return redirect()->route('books.index')->with('success', 'Book updated!');
     }
 
     public function destroy(Book $book)
     {
-        $book->delete();
+        $this->bookService->delete($book);
         return redirect()->route('books.index')->with('success', 'Book deleted!');
     }
 
-
     public function checkOut(Book $book)
     {
-        $book->update(['is_checked_out' => true]);
+        $this->bookService->checkOut($book);
         return back()->with('success', 'Book checked out!');
     }
 
     public function checkIn(Book $book)
     {
-        $book->update(['is_checked_out' => false]);
+        $this->bookService->checkIn($book);
         return back()->with('success', 'Book checked in!');
     }
 }
