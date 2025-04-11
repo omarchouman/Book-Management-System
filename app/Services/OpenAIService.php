@@ -15,7 +15,8 @@ class OpenAIService
 
     public function generateBookTags(string $title, string $description): array
     {
-        $prompt = "Suggest 1 to 2 genre or thematic tags for a book titled '{$title}' with this description: {$description}. Return only a comma-separated list of lowercase tags.";
+        $prompt = "Suggest 1 to 2 genre or thematic tags for a book titled '{$title}'
+                   with this description: {$description}. Return only a comma-separated list of lowercase tags.";
 
         $tagsText = $this->callOpenAI($prompt, 60, 0.5);
 
@@ -25,7 +26,7 @@ class OpenAIService
     protected function callOpenAI(string $prompt, int $maxTokens, float $temperature): ?string
     {
         $response = Http::withToken(config('services.openai.key'))
-            ->timeout(30)
+            ->timeout(60)
             ->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-3.5-turbo',
                 'messages' => [

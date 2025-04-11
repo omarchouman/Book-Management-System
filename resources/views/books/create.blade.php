@@ -2,7 +2,7 @@
     <div class="max-w-2xl mx-auto py-10">
         <h1 class="text-xl font-bold mb-6">Add a New Book</h1>
 
-        <form action="{{ route('books.store') }}" method="POST" class="space-y-6">
+        <form id="bookForm" action="{{ route('books.store') }}" method="POST" class="space-y-6 relative">
             @csrf
 
             <div>
@@ -35,6 +35,20 @@
                     Save Book
                 </button>
             </div>
+
+            <div id="loader" class="absolute inset-0 bg-white/80 flex items-center justify-center z-10 rounded-md hidden">
+                <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+            </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById('bookForm').addEventListener('submit', function() {
+            document.getElementById('loader').classList.remove('hidden');
+            document.querySelector('button[type="submit"]').disabled = true;
+        });
+    </script>
 </x-app-layout>
